@@ -2,6 +2,7 @@ import {
   UPDATE_COLUMN,
   UPDATE_TASK,
   UPDATE_COLUMN_ORDER,
+  NO_CHANGE,
 } from "../constants/types";
 
 const INITAL = {
@@ -42,6 +43,10 @@ export default (state = INITAL, action) => {
         ...state,
         columnOrders: action.payload,
       };
+    }
+
+    case NO_CHANGE: {
+      return state;
     }
 
     default: {
