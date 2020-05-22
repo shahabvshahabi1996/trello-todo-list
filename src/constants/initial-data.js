@@ -16,7 +16,7 @@ export default {
   columns: {
     "column-1": {
       id: "column-1",
-      title: "To Do!",
+      title: "To Do",
       taskIds: ["task-1", "task-2", "task-3"],
     },
     "column-2": {
