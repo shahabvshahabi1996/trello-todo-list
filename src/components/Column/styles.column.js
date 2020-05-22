@@ -11,5 +11,6 @@ export default makeStyles({
   },
   taskContainer: {
     padding: 10,
+    minHeight: 100,
   },
 });

@@ -21,8 +21,65 @@ const App = () => {
   const [state, setState] = React.useState(initialData);
 
   const onDragEnd = (res) => {
-    const { destenation, srouce, draggableId } = res;
-    console.log(res);
+    const { destination, source, draggableId } = res;
+    if (!destination) {
+      return;
+    }
+
+    if (
+      destination.droppableId === source.droppableId &&
+      destination.index === source.index
+    ) {
+      return;
+    }
+    const start = state.columns[source.droppableId];
+    const finish = state.columns[destination.droppableId];
+
+    if (start === finish) {
+      const copyTaskIds = [...start.taskIds];
+      copyTaskIds.splice(source.index, 1);
+      copyTaskIds.splice(destination.index, 0, draggableId);
+
+      const newColumn = {
+        ...start,
+        taskIds: copyTaskIds,
+      };
+
+      setState((state) => ({
+        ...state,
+        columns: {
+          ...state.columns,
+          [destination.droppableId]: newColumn,
+        },
+      }));
+
+      return;
+    }
+
+    const startTaskIds = [...start.taskIds];
+    startTaskIds.splice(source.index, 1);
+
+    const newStart = {
+      ...start,
+      taskIds: startTaskIds,
+    };
+
+    const finishTaskIds = [...finish.taskIds];
+    finishTaskIds.splice(destination.index, 0, draggableId);
+
+    const newFinish = {
+      ...finish,
+      taskIds: finishTaskIds,
+    };
+
+    setState((state) => ({
+      ...state,
+      columns: {
+        ...state.columns,
+        [newFinish.id]: newFinish,
+        [newStart.id]: newStart,
+      },
+    }));
   };
 
   return (
