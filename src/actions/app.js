@@ -6,12 +6,16 @@ import {
 
 export const updateTasks = (tasks) => ({ type: UPDATE_TASK, payload: tasks });
 
-export const updateColumn = (columns) => ({
-  type: UPDATE_COLUMN,
-  payload: columns,
-});
+export const updateColumn = (columns) => {
+  return {
+    type: UPDATE_COLUMN,
+    payload: columns,
+  };
+};
 
-export const updateColumn = (columns) => ({
-  type: UPDATE_COLUMN_ORDER,
-  payload: columns,
-});
+export const updateColumnOrder = (columns) => {
+  return {
+    type: UPDATE_COLUMN_ORDER,
+    payload: columns,
+  };
+};
