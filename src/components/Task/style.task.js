@@ -7,6 +7,7 @@ export default makeStyles({
     borderRadius: 5,
     backgroundColor: "#fff",
     transition: "background-color 0.3s",
+    width: "100% - 20px",
     margin: "10px auto",
     cursor: "move",
     "&:hover": {
