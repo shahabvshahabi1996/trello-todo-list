@@ -3,6 +3,7 @@ import { makeStyles } from "@material-ui/core";
 import initialData from "./constants/initial-data";
 import Column from "./components/Column";
 import { DragDropContext } from "react-beautiful-dnd";
+import { useSelector } from "react-redux";
 
 const Styels = makeStyles((theme) => ({
   AppWrapper: {
@@ -19,6 +20,9 @@ const Styels = makeStyles((theme) => ({
 const App = () => {
   const classes = Styels();
   const [state, setState] = React.useState(initialData);
+  const app = useSelector((state) => state.app);
+
+  console.log(app);
 
   const onDragEnd = (res) => {
     const { destination, source, draggableId } = res;
