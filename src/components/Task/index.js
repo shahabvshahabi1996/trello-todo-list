@@ -1,4 +1,4 @@
-import React from "react";
+import React, { memo } from "react";
 import Styles from "./style.task";
 import { Paper } from "@material-ui/core";
 import { Draggable } from "react-beautiful-dnd";
@@ -23,4 +23,4 @@ const Task = ({ item, index }) => {
   );
 };
 
-export default Task;
+export default memo(Task);
