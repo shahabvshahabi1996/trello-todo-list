@@ -43,23 +43,29 @@ const Column = ({ column, tasks, index }) => {
 
   return (
     <>
-      <UpdateColumnModal
-        open={open}
-        handleSubmit={handleUpdate}
-        toggleModal={toggleModal}
-        title={column.title}
-        description={column.description}
-      />
-      <InfoColumnModal
-        open={openInfo}
-        selectedColumn={column}
-        toggleModal={toggleInfoModal}
-      />
-      <AddTaskModal
-        open={openAddTask}
-        columnId={column.id}
-        toggleModal={toggleAddTaskModal}
-      />
+      {open && (
+        <UpdateColumnModal
+          open={open}
+          handleSubmit={handleUpdate}
+          toggleModal={toggleModal}
+          title={column.title}
+          description={column.description}
+        />
+      )}
+      {openInfo && (
+        <InfoColumnModal
+          open={openInfo}
+          selectedColumn={column}
+          toggleModal={toggleInfoModal}
+        />
+      )}
+      {openAddTask && (
+        <AddTaskModal
+          open={openAddTask}
+          columnId={column.id}
+          toggleModal={toggleAddTaskModal}
+        />
+      )}
       <Draggable draggableId={column.id} index={index}>
         {(provided, snapshot) => (
           <Paper
