@@ -27,6 +27,7 @@ export default makeStyles({
     paddingBottom: 50,
     maxHeight: "50vh",
     overflowY: "auto",
+    overflowX: "hidden",
     "& button": {
       position: "absolute",
       bottom: 10,

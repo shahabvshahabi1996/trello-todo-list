@@ -6,6 +6,8 @@ import {
   ADD_COLUMN,
   DELETE_COLUMN,
   RAISE_MESSAGE,
+  UPDATE_TASK,
+  ADD_TASK,
 } from "../constants/types";
 
 export const initiateData = (tasks) => {
@@ -80,7 +82,7 @@ export const deleteColumn = (app, columnId, dispatch) => {
 
   dispatch({
     type: RAISE_MESSAGE,
-    payload: `List ${app.columns[columnId].title} is deleted!`,
+    payload: `${app.columns[columnId].title} is deleted!`,
   });
 
   return {
@@ -106,7 +108,7 @@ export const updateColumnInfo = (
     lastModified: d,
   };
 
-  dispatch({ type: RAISE_MESSAGE, payload: `${title} List is updated` });
+  dispatch({ type: RAISE_MESSAGE, payload: `${title} is updated` });
 
   return {
     type: UPDATE_COLUMN,
@@ -128,7 +130,7 @@ export const addNewColumn = (title, description, dispatch) => {
     },
   };
 
-  dispatch({ type: RAISE_MESSAGE, payload: `${title} List is Added` });
+  dispatch({ type: RAISE_MESSAGE, payload: `${title} is Added` });
 
   return {
     type: ADD_COLUMN,
@@ -160,7 +162,7 @@ export const updateColumn = (
 
     dispatch({
       type: RAISE_MESSAGE,
-      payload: `Task #${draggableId} is reorder on List ${
+      payload: `Task #${draggableId} is reorder on ${
         state.columns[source.droppableId].title
       }`,
     });
@@ -191,9 +193,9 @@ export const updateColumn = (
 
   dispatch({
     type: RAISE_MESSAGE,
-    payload: `Task #${draggableId} is moved from List ${
+    payload: `Task #${draggableId} is moved from ${
       state.columns[source.droppableId].title
-    } to List ${state.columns[destination.droppableId].title}`,
+    } to ${state.columns[destination.droppableId].title}`,
   });
 
   return {
@@ -214,10 +216,54 @@ export const updateColumnOrder = (
   newOrderColumns.splice(destination.index, 0, draggableId);
   dispatch({
     type: RAISE_MESSAGE,
-    payload: `${state.columns[draggableId].title} List is reordered`,
+    payload: `${state.columns[draggableId].title} is reordered`,
   });
   return {
     type: UPDATE_COLUMN_ORDER,
     payload: newOrderColumns,
   };
 };
+
+export const updateTask = (
+  app,
+  columnId,
+  content,
+  dispatch,
+  taskId = undefined
+) => {
+  if (taskId) {
+    dispatch({
+      type: RAISE_MESSAGE,
+      payload: `#${taskId} on ${app.columns[columnId].title} is updated`,
+    });
+    return {
+      type: UPDATE_TASK,
+      payload: { [taskId]: { ...app.tasks[taskId], content: content } },
+    };
+  }
+
+  const newId = `task-${Math.random()}`;
+  const d = new Date();
+  dispatch({
+    type: RAISE_MESSAGE,
+    payload: `#${newId} is added to ${app.columns[columnId].title}`,
+  });
+  return {
+    type: ADD_TASK,
+    payload: {
+      task: {
+        id: newId,
+        content: content,
+      },
+      column: {
+        [columnId]: {
+          ...app.columns[columnId],
+          lastModified: d.toString(),
+          taskIds: [...app.columns[columnId].taskIds, newId],
+        },
+      },
+    },
+  };
+};
+
+export const deleteTask = (app, columnId, taskId, dispatch) => {};

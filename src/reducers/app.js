@@ -5,6 +5,8 @@ import {
   INITAL_DATA,
   ADD_COLUMN,
   DELETE_COLUMN,
+  ADD_TASK,
+  UPDATE_TASK,
 } from "../constants/types";
 
 const INITAL = {
@@ -26,6 +28,30 @@ const INITAL = {
 
 export default (state = INITAL, action) => {
   switch (action.type) {
+    case UPDATE_TASK: {
+      return {
+        ...state,
+        tasks: {
+          ...state.tasks,
+          ...action.payload.data,
+        },
+      };
+    }
+
+    case ADD_TASK: {
+      return {
+        ...state,
+        tasks: {
+          ...state.tasks,
+          ...action.payload.task,
+        },
+        columns: {
+          ...state.columns,
+          ...action.payload.column,
+        },
+      };
+    }
+
     case ADD_COLUMN: {
       return {
         ...state,

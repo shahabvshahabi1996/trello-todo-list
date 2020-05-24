@@ -1,6 +1,6 @@
 import React from "react";
-import { Paper, MenuItem, TextField } from "@material-ui/core";
-import { MoreVert as InfoIcon } from "@material-ui/icons";
+import { Paper, MenuItem, TextField, Button, Box } from "@material-ui/core";
+import { MoreVert as InfoIcon, Add as AddIcon } from "@material-ui/icons";
 import Styles from "./styles.column";
 import Task from "../Task";
 import { Droppable, Draggable } from "react-beautiful-dnd";
@@ -8,14 +8,14 @@ import { useDispatch, useSelector } from "react-redux";
 import { deleteColumn, updateColumnInfo } from "../../actions/app";
 import DropDown from "../DropDown";
 import Modal from "../Modal";
+import UpdateColumnModal from "../UpdateColumnModal";
+import InfoColumnModal from "../InfoColumnModal";
 
 const Column = ({ column, tasks, index }) => {
   const classes = Styles();
   const app = useSelector((state) => state.app);
   const [open, setOpen] = React.useState(false);
-  const [title, setTitle] = React.useState("");
-  const [description, setDescribtion] = React.useState("");
-  const [selectedId, setSelectedId] = React.useState("");
+  const [openInfo, setOpenInfo] = React.useState(false);
   const [selectedColumn, setSelectedColumn] = React.useState(undefined);
   const dispatch = useDispatch();
 
@@ -23,63 +23,36 @@ const Column = ({ column, tasks, index }) => {
     dispatch(deleteColumn(app, id, dispatch));
   };
 
-  const handleUpdate = () => {
-    dispatch(updateColumnInfo(app, title, description, selectedId, dispatch));
+  const handleUpdate = (title, description) => {
+    dispatch(
+      updateColumnInfo(app, title, description, selectedColumn.id, dispatch)
+    );
   };
 
-  const toggleModal = (title = "", description = "", id = undefined) => {
-    setTitle(title);
-    setDescribtion(description);
-    setSelectedId(id);
+  const toggleModal = (column = undefined) => {
+    setSelectedColumn(column);
     setOpen((open) => !open);
   };
 
   const toggleInfoModal = (column = undefined) => {
+    setOpenInfo((open) => !open);
     setSelectedColumn(column);
   };
 
   return (
     <>
-      <Modal
+      <UpdateColumnModal
         open={open}
         handleSubmit={handleUpdate}
         toggleModal={toggleModal}
-        title="Update List"
-        disabled={title.length === 0}
-      >
-        <TextField
-          label="List Title"
-          variant="outlined"
-          autoFocus
-          fullWidth
-          value={title}
-          onChange={(e) => setTitle(e.target.value)}
-        />
-        <br />
-        <br />
-        <TextField
-          label="Describtion"
-          variant="outlined"
-          autoFocus
-          fullWidth
-          value={description}
-          onChange={(e) => setDescribtion(e.target.value)}
-        />
-      </Modal>
-      <Modal
-        open={selectedColumn !== undefined ? true : false}
+        title={selectedColumn ? selectedColumn.title : ""}
+        description={selectedColumn ? selectedColumn.description : ""}
+      />
+      <InfoColumnModal
+        open={openInfo}
+        selectedColumn={selectedColumn}
         toggleModal={toggleInfoModal}
-        title="List Info"
-      >
-        {selectedColumn && (
-          <div>
-            <h2>{selectedColumn.title}</h2>
-            <p>Describtion : {selectedColumn.description}</p>
-            <p>Created At : {selectedColumn.createdAt}</p>
-            <p>Last Modified : {selectedColumn.lastModified}</p>
-          </div>
-        )}
-      </Modal>
+      />
       <Draggable draggableId={column.id} index={index}>
         {(provided, snapshot) => (
           <Paper
@@ -95,13 +68,7 @@ const Column = ({ column, tasks, index }) => {
                 <span>{column.description}</span>{" "}
               </div>
               <DropDown button={<InfoIcon />}>
-                <MenuItem
-                  onClick={() =>
-                    toggleModal(column.title, column.description, column.id)
-                  }
-                >
-                  Edit
-                </MenuItem>
+                <MenuItem onClick={() => toggleModal(column)}>Edit</MenuItem>
                 <MenuItem onClick={() => handleDeleteList(column.id)}>
                   Delete
                 </MenuItem>
@@ -126,6 +93,11 @@ const Column = ({ column, tasks, index }) => {
               )}
             </Droppable>
             {provided.placeholder}
+            <Box padding={1}>
+              <Button color="primary">
+                <AddIcon /> Add New card
+              </Button>
+            </Box>
           </Paper>
         )}
       </Draggable>

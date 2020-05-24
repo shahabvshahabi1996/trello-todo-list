@@ -1,11 +1,11 @@
-import React, { useEffect, Fragment } from "react";
-import { makeStyles, AppBar, Button, TextField } from "@material-ui/core";
+import React, { useEffect } from "react";
+import { makeStyles, AppBar, Button } from "@material-ui/core";
 import { Add as AddIcon } from "@material-ui/icons";
 import { useSelector, useDispatch } from "react-redux";
 import { initiateData, addNewColumn as AddColumn } from "./actions/app";
 import Content from "./components/Content";
-import Modal from "./components/Modal";
 import Toast from "./components/Toast";
+import AddColumnModal from "./components/AddColumnModal";
 
 const Styels = makeStyles((theme) => ({
   AppWrapper: {
@@ -32,8 +32,6 @@ const Styels = makeStyles((theme) => ({
 const App = () => {
   const classes = Styels();
   const [open, setOpen] = React.useState(false);
-  const [title, setTitle] = React.useState("");
-  const [description, setDescription] = React.useState("");
   const isInitial = useSelector((state) => state.app.isInitial);
   const dispatch = useDispatch();
 
@@ -61,42 +59,21 @@ const App = () => {
       .then((data) => dispatch(initiateData(data)));
   };
 
-  const addNewColumn = () => {
+  const addNewColumn = (title, description) => {
     dispatch(AddColumn(title, description, dispatch));
   };
 
   const toggleModal = () => {
-    if (open) {
-      setTitle("");
-    }
     setOpen((open) => !open);
   };
 
   return (
     <Toast>
-      <Modal
+      <AddColumnModal
         open={open}
-        handleSubmit={addNewColumn}
+        handleSumbmit={addNewColumn}
         toggleModal={toggleModal}
-        title="Add list"
-        disabled={title.length === 0}
-      >
-        <TextField
-          autoFocus
-          label="List Title"
-          variant="outlined"
-          fullWidth
-          onChange={(e) => setTitle(e.target.value)}
-        />
-        <br />
-        <br />
-        <TextField
-          label="Description"
-          variant="outlined"
-          fullWidth
-          onChange={(e) => setDescription(e.target.value)}
-        />
-      </Modal>
+      />
       <div className={classes.AppWrapper}>
         <AppBar color="inherit" className={classes.header}>
           <div>
