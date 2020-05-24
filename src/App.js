@@ -13,9 +13,6 @@ const Styels = makeStyles((theme) => ({
     width: "100vw",
     height: "100vh",
   },
-  cotentContainer: {
-    marginTop: 80,
-  },
   header: {
     height: "auto",
     position: "fixed",
@@ -29,6 +26,10 @@ const Styels = makeStyles((theme) => ({
       justifyContent: "space-between",
       width: "100%",
     },
+  },
+  breakPoint: {
+    display: "block",
+    marginBottom: "10vh",
   },
 }));
 
@@ -86,7 +87,10 @@ const App = () => {
             </Button>
           </div>
         </AppBar>
-
+        <br />
+        <br />
+        <br />
+        <br />
         <div className={classes.cotentContainer}>
           <Content />
         </div>
