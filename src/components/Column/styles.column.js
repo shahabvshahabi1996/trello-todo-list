@@ -25,6 +25,8 @@ export default makeStyles({
     width: "500px !important",
     position: "relative",
     paddingBottom: 50,
+    maxHeight: "50vh",
+    overflowY: "auto",
     "& button": {
       position: "absolute",
       bottom: 10,

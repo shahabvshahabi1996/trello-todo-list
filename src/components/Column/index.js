@@ -20,7 +20,7 @@ const Column = ({ column, tasks, index }) => {
   const dispatch = useDispatch();
 
   const handleDeleteList = (id) => {
-    dispatch(deleteColumn(app, id));
+    dispatch(deleteColumn(app, id, dispatch));
   };
 
   const handleUpdate = () => {

@@ -78,7 +78,10 @@ export const deleteColumn = (app, columnId, dispatch) => {
     columnOrders: copyOrders,
   };
 
-  dispatch({ type: RAISE_MESSAGE, payload: `` });
+  dispatch({
+    type: RAISE_MESSAGE,
+    payload: `List ${app.columns[columnId].title} is deleted!`,
+  });
 
   return {
     type: DELETE_COLUMN,
