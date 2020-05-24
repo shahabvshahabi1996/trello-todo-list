@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useCallback } from "react";
 import { Paper, MenuItem, TextField, Button, Box } from "@material-ui/core";
 import { MoreVert as InfoIcon, Add as AddIcon } from "@material-ui/icons";
 import Styles from "./styles.column";
@@ -20,13 +20,11 @@ const Column = ({ column, tasks, index }) => {
   const dispatch = useDispatch();
 
   const handleDeleteList = (id) => {
-    dispatch(deleteColumn(app, id, dispatch));
+    dispatch(deleteColumn(app, id));
   };
 
   const handleUpdate = (title, description) => {
-    dispatch(
-      updateColumnInfo(app, title, description, selectedColumn.id, dispatch)
-    );
+    dispatch(updateColumnInfo(app, title, description, selectedColumn.id));
   };
 
   const toggleModal = (column = undefined) => {

@@ -60,7 +60,7 @@ const App = () => {
   };
 
   const addNewColumn = (title, description) => {
-    dispatch(AddColumn(title, description, dispatch));
+    dispatch(AddColumn(title, description));
   };
 
   const toggleModal = () => {

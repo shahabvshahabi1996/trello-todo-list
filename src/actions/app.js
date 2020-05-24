@@ -34,14 +34,7 @@ export const initiateData = (tasks) => {
   };
 };
 
-export const updateState = (
-  app,
-  destination,
-  source,
-  draggableId,
-  type,
-  dispatch
-) => {
+export const updateState = (app, destination, source, draggableId, type) => {
   if (
     !destination ||
     (destination.droppableId === source.droppableId &&
@@ -53,13 +46,13 @@ export const updateState = (
   }
 
   if (type === "task") {
-    return updateColumn(app, source, destination, draggableId, dispatch);
+    return updateColumn(app, source, destination, draggableId);
   } else {
-    return updateColumnOrder(app, source, destination, draggableId, dispatch);
+    return updateColumnOrder(app, source, destination, draggableId);
   }
 };
 
-export const deleteColumn = (app, columnId, dispatch) => {
+export const deleteColumn = (app, columnId) => {
   const copyTaskIds = [...(app.columns[columnId].taskIds || [])];
   const copyOrders = [...app.columnOrders];
   let index = copyOrders.indexOf(columnId);
@@ -80,43 +73,37 @@ export const deleteColumn = (app, columnId, dispatch) => {
     columnOrders: copyOrders,
   };
 
-  dispatch({
-    type: RAISE_MESSAGE,
-    payload: `${app.columns[columnId].title} is deleted!`,
-  });
+  return (dispatch) => {
+    dispatch({
+      type: RAISE_MESSAGE,
+      payload: `${app.columns[columnId].title} is deleted!`,
+    });
 
-  return {
-    type: DELETE_COLUMN,
-    payload: data,
+    dispatch({
+      type: DELETE_COLUMN,
+      payload: data,
+    });
   };
 };
 
-export const updateColumnInfo = (
-  app,
-  title,
-  description,
-  columnId,
-  dispatch
-) => {
+export const updateColumnInfo = (app, title, description, columnId) => {
   // console.log(columnId);
-  const d = new Date();
+  return (dispatch) => {
+    const d = new Date();
 
-  const newData = {
-    ...app.columns[columnId],
-    title: title,
-    description: description,
-    lastModified: d,
-  };
+    const newData = {
+      ...app.columns[columnId],
+      title: title,
+      description: description,
+      lastModified: d,
+    };
 
-  dispatch({ type: RAISE_MESSAGE, payload: `${title} is updated` });
-
-  return {
-    type: UPDATE_COLUMN,
-    payload: { [columnId]: newData },
+    dispatch({ type: RAISE_MESSAGE, payload: `${title} is updated` });
+    dispatch({ type: UPDATE_COLUMN, payload: { [columnId]: newData } });
   };
 };
 
-export const addNewColumn = (title, description, dispatch) => {
+export const addNewColumn = (title, description) => {
   const id = `column-${Math.random()}`;
   const d = new Date();
   const data = {
@@ -130,139 +117,123 @@ export const addNewColumn = (title, description, dispatch) => {
     },
   };
 
-  dispatch({ type: RAISE_MESSAGE, payload: `${title} is Added` });
-
-  return {
-    type: ADD_COLUMN,
-    payload: { data, id },
+  return (dispatch) => {
+    dispatch({ type: RAISE_MESSAGE, payload: `${title} is Added` });
+    dispatch({ type: ADD_COLUMN, payload: { data, id } });
   };
 };
 
-export const updateColumn = (
-  state,
-  source,
-  destination,
-  draggableId,
-  dispatch
-) => {
+export const updateColumn = (state, source, destination, draggableId) => {
   const start = state.columns[source.droppableId];
   const finish = state.columns[destination.droppableId];
   const d = new Date();
 
-  if (start === finish) {
-    const copyTaskIds = [...start.taskIds];
-    copyTaskIds.splice(source.index, 1);
-    copyTaskIds.splice(destination.index, 0, draggableId);
+  return (dispatch) => {
+    if (start === finish) {
+      const copyTaskIds = [...start.taskIds];
+      copyTaskIds.splice(source.index, 1);
+      copyTaskIds.splice(destination.index, 0, draggableId);
 
-    const newColumn = {
+      const newColumn = {
+        ...start,
+        taskIds: copyTaskIds,
+        lastModified: d.toString(),
+      };
+
+      dispatch({
+        type: RAISE_MESSAGE,
+        payload: `Task #${draggableId} is reorder on ${
+          state.columns[source.droppableId].title
+        }`,
+      });
+      dispatch({
+        type: UPDATE_COLUMN,
+        payload: { [destination.droppableId]: newColumn },
+      });
+      return;
+    }
+
+    const startTaskIds = [...start.taskIds];
+    startTaskIds.splice(source.index, 1);
+
+    const newStart = {
       ...start,
-      taskIds: copyTaskIds,
+      taskIds: startTaskIds,
+      lastModified: d.toString(),
+    };
+
+    const finishTaskIds = [...finish.taskIds];
+    finishTaskIds.splice(destination.index, 0, draggableId);
+
+    const newFinish = {
+      ...finish,
+      taskIds: finishTaskIds,
       lastModified: d.toString(),
     };
 
     dispatch({
       type: RAISE_MESSAGE,
-      payload: `Task #${draggableId} is reorder on ${
+      payload: `Task #${draggableId} is moved from ${
         state.columns[source.droppableId].title
-      }`,
+      } to ${state.columns[destination.droppableId].title}`,
     });
 
-    return {
+    dispatch({
       type: UPDATE_COLUMN,
-      payload: { [destination.droppableId]: newColumn },
-    };
-  }
-
-  const startTaskIds = [...start.taskIds];
-  startTaskIds.splice(source.index, 1);
-
-  const newStart = {
-    ...start,
-    taskIds: startTaskIds,
-    lastModified: d.toString(),
-  };
-
-  const finishTaskIds = [...finish.taskIds];
-  finishTaskIds.splice(destination.index, 0, draggableId);
-
-  const newFinish = {
-    ...finish,
-    taskIds: finishTaskIds,
-    lastModified: d.toString(),
-  };
-
-  dispatch({
-    type: RAISE_MESSAGE,
-    payload: `Task #${draggableId} is moved from ${
-      state.columns[source.droppableId].title
-    } to ${state.columns[destination.droppableId].title}`,
-  });
-
-  return {
-    type: UPDATE_COLUMN,
-    payload: { [newFinish.id]: newFinish, [newStart.id]: newStart },
+      payload: { [newFinish.id]: newFinish, [newStart.id]: newStart },
+    });
   };
 };
 
-export const updateColumnOrder = (
-  state,
-  source,
-  destination,
-  draggableId,
-  dispatch
-) => {
+export const updateColumnOrder = (state, source, destination, draggableId) => {
   const newOrderColumns = [...state.columnOrders];
   newOrderColumns.splice(source.index, 1);
   newOrderColumns.splice(destination.index, 0, draggableId);
-  dispatch({
-    type: RAISE_MESSAGE,
-    payload: `${state.columns[draggableId].title} is reordered`,
-  });
-  return {
-    type: UPDATE_COLUMN_ORDER,
-    payload: newOrderColumns,
+  return (dispatch) => {
+    dispatch({
+      type: RAISE_MESSAGE,
+      payload: `${state.columns[draggableId].title} is reordered`,
+    });
+    dispatch({ type: UPDATE_COLUMN_ORDER, payload: newOrderColumns });
   };
 };
 
-export const updateTask = (
-  app,
-  columnId,
-  content,
-  dispatch,
-  taskId = undefined
-) => {
-  if (taskId) {
+export const updateTask = (app, columnId, content, taskId = undefined) => {
+  return (dispatch) => {
+    if (taskId) {
+      dispatch({
+        type: RAISE_MESSAGE,
+        payload: `#${taskId} on ${app.columns[columnId].title} is updated`,
+      });
+      dispatch({
+        type: UPDATE_TASK,
+        payload: { [taskId]: { ...app.tasks[taskId], content: content } },
+      });
+      return;
+    }
+
+    const newId = `task-${Math.random()}`;
+    const d = new Date();
     dispatch({
       type: RAISE_MESSAGE,
-      payload: `#${taskId} on ${app.columns[columnId].title} is updated`,
+      payload: `#${newId} is added to ${app.columns[columnId].title}`,
     });
-    return {
-      type: UPDATE_TASK,
-      payload: { [taskId]: { ...app.tasks[taskId], content: content } },
-    };
-  }
-
-  const newId = `task-${Math.random()}`;
-  const d = new Date();
-  dispatch({
-    type: RAISE_MESSAGE,
-    payload: `#${newId} is added to ${app.columns[columnId].title}`,
-  });
-  return {
-    type: ADD_TASK,
-    payload: {
-      task: {
-        id: newId,
-        content: content,
-      },
-      column: {
-        [columnId]: {
-          ...app.columns[columnId],
-          lastModified: d.toString(),
-          taskIds: [...app.columns[columnId].taskIds, newId],
+    dispatch({
+      type: ADD_TASK,
+      payload: {
+        task: {
+          id: newId,
+          content: content,
+        },
+        column: {
+          [columnId]: {
+            ...app.columns[columnId],
+            lastModified: d.toString(),
+            taskIds: [...app.columns[columnId].taskIds, newId],
+          },
         },
       },
-    },
+    });
   };
 };
 

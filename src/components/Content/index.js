@@ -16,10 +16,7 @@ const Content = () => {
 
   const onDragEnd = (res) => {
     const { destination, source, draggableId, type } = res;
-    console.log(res);
-    dispatch(
-      updateState(app, destination, source, draggableId, type, dispatch)
-    );
+    dispatch(updateState(app, destination, source, draggableId, type));
   };
 
   return (
