@@ -1,4 +1,4 @@
-import { RAISE_MESSAGE } from "../constants/types";
+import { RAISE_MESSAGE, DELETE_MESSAGE } from "../constants/types";
 
 const INITIAL = {
   message: "",
@@ -10,6 +10,13 @@ export default (state = INITIAL, action) => {
       return {
         ...state,
         message: action.payload,
+      };
+    }
+
+    case DELETE_MESSAGE: {
+      return {
+        ...state,
+        message: "",
       };
     }
 

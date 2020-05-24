@@ -10,13 +10,15 @@ import DropDown from "../DropDown";
 import Modal from "../Modal";
 import UpdateColumnModal from "../UpdateColumnModal";
 import InfoColumnModal from "../InfoColumnModal";
+import AddTaskModal from "../AddTaskModal";
 
 const Column = ({ column, tasks, index }) => {
   const classes = Styles();
   const app = useSelector((state) => state.app);
   const [open, setOpen] = React.useState(false);
   const [openInfo, setOpenInfo] = React.useState(false);
-  const [selectedColumn, setSelectedColumn] = React.useState(undefined);
+  const [openAddTask, setOpenAddTask] = React.useState(false);
+
   const dispatch = useDispatch();
 
   const handleDeleteList = (id) => {
@@ -24,17 +26,19 @@ const Column = ({ column, tasks, index }) => {
   };
 
   const handleUpdate = (title, description) => {
-    dispatch(updateColumnInfo(app, title, description, selectedColumn.id));
+    dispatch(updateColumnInfo(app, title, description, column.id));
   };
 
-  const toggleModal = (column = undefined) => {
-    setSelectedColumn(column);
+  const toggleModal = () => {
     setOpen((open) => !open);
   };
 
-  const toggleInfoModal = (column = undefined) => {
+  const toggleInfoModal = () => {
     setOpenInfo((open) => !open);
-    setSelectedColumn(column);
+  };
+
+  const toggleAddTaskModal = () => {
+    setOpenAddTask((open) => !open);
   };
 
   return (
@@ -43,13 +47,18 @@ const Column = ({ column, tasks, index }) => {
         open={open}
         handleSubmit={handleUpdate}
         toggleModal={toggleModal}
-        title={selectedColumn ? selectedColumn.title : ""}
-        description={selectedColumn ? selectedColumn.description : ""}
+        title={column.title}
+        description={column.description}
       />
       <InfoColumnModal
         open={openInfo}
-        selectedColumn={selectedColumn}
+        selectedColumn={column}
         toggleModal={toggleInfoModal}
+      />
+      <AddTaskModal
+        open={openAddTask}
+        columnId={column.id}
+        toggleModal={toggleAddTaskModal}
       />
       <Draggable draggableId={column.id} index={index}>
         {(provided, snapshot) => (
@@ -84,7 +93,14 @@ const Column = ({ column, tasks, index }) => {
                   className={classes.taskContainer}
                 >
                   {tasks.map((item, index) => {
-                    return <Task index={index} key={item.id} item={item} />;
+                    return (
+                      <Task
+                        columnId={column.id}
+                        index={index}
+                        key={item.id}
+                        item={item}
+                      />
+                    );
                   })}
                   {provided.placeholder}
                 </div>
@@ -92,7 +108,7 @@ const Column = ({ column, tasks, index }) => {
             </Droppable>
             {provided.placeholder}
             <Box padding={1}>
-              <Button color="primary">
+              <Button onClick={toggleAddTaskModal} color="primary">
                 <AddIcon /> Add New card
               </Button>
             </Box>

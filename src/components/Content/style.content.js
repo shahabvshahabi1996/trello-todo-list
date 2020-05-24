@@ -6,6 +6,6 @@ export default makeStyles({
     alignItems: "flex-start",
     flexWrap: "no-wrap",
     height: "90vh",
-    overflowY: "auto",
+    maxWidth: "100vw",
   },
 });

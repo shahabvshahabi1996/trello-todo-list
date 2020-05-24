@@ -7,6 +7,7 @@ import {
   DELETE_COLUMN,
   ADD_TASK,
   UPDATE_TASK,
+  DELETE_TASK,
 } from "../constants/types";
 
 const INITAL = {
@@ -33,7 +34,7 @@ export default (state = INITAL, action) => {
         ...state,
         tasks: {
           ...state.tasks,
-          ...action.payload.data,
+          ...action.payload,
         },
       };
     }
@@ -43,12 +44,21 @@ export default (state = INITAL, action) => {
         ...state,
         tasks: {
           ...state.tasks,
-          ...action.payload.task,
+          [action.payload.task.id]: {
+            ...action.payload.task,
+          },
         },
         columns: {
           ...state.columns,
           ...action.payload.column,
         },
+      };
+    }
+
+    case DELETE_TASK: {
+      return {
+        ...state,
+        ...action.payload,
       };
     }
 

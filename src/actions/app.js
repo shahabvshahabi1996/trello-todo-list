@@ -8,6 +8,7 @@ import {
   RAISE_MESSAGE,
   UPDATE_TASK,
   ADD_TASK,
+  DELETE_TASK,
 } from "../constants/types";
 
 export const initiateData = (tasks) => {
@@ -237,4 +238,32 @@ export const updateTask = (app, columnId, content, taskId = undefined) => {
   };
 };
 
-export const deleteTask = (app, columnId, taskId, dispatch) => {};
+export const deleteTask = (app, columnId, taskId) => {
+  return (dispatch) => {
+    const copyTasks = { ...app.tasks };
+    delete copyTasks[taskId];
+    const copyTaskIds = [...app.columns[columnId].taskIds];
+    const index = copyTaskIds.indexOf(taskId);
+    copyTaskIds.splice(index, 1);
+
+    dispatch({
+      type: RAISE_MESSAGE,
+      payload: `#${taskId} on ${app.columns[columnId].title} is deleted!`,
+    });
+
+    dispatch({
+      type: DELETE_TASK,
+      payload: {
+        ...app,
+        tasks: copyTasks,
+        columns: {
+          ...app.columns,
+          [columnId]: {
+            ...app.columns[columnId],
+            taskIds: copyTaskIds,
+          },
+        },
+      },
+    });
+  };
+};

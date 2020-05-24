@@ -13,9 +13,12 @@ const Styels = makeStyles((theme) => ({
     width: "100vw",
     height: "100vh",
   },
+  cotentContainer: {
+    marginTop: 80,
+  },
   header: {
     height: "auto",
-    position: "static",
+    position: "fixed",
     display: "flex",
     justifyContent: "space-between",
     alignItems: "center",
@@ -83,7 +86,10 @@ const App = () => {
             </Button>
           </div>
         </AppBar>
-        <Content />
+
+        <div className={classes.cotentContainer}>
+          <Content />
+        </div>
       </div>
     </Toast>
   );

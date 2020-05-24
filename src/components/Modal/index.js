@@ -21,6 +21,7 @@ const Modal = ({
   title,
   handleSubmit = false,
   disabled,
+  toggleOnMyCall = false,
 }) => {
   const classes = Styles();
   return (
@@ -32,7 +33,9 @@ const Modal = ({
           if (handleSubmit) {
             handleSubmit();
           }
-          toggleModal();
+          if (!toggleOnMyCall) {
+            toggleModal();
+          }
         }}
       >
         <DialogContent>

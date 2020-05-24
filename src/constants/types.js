@@ -11,3 +11,4 @@ export const ADD_COLUMN = "ADD_COLUMN";
 export const DELETE_COLUMN = "DELETE_COLUMN";
 
 export const RAISE_MESSAGE = "RAISE_MESSAGE";
+export const DELETE_MESSAGE = "DELETE_MESSAGE";
