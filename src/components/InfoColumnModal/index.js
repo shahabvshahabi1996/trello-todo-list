@@ -9,7 +9,7 @@ const InfoColumnModal = ({ open, selectedColumn, toggleModal }) => {
           <h2>{selectedColumn.title}</h2>
           <p>Describtion : {selectedColumn.description}</p>
           <p>Created At : {selectedColumn.createdAt}</p>
-          <p>Last Modified : {selectedColumn.lastModified}</p>
+          <p>Last Modified : {selectedColumn.lastModified.toString()}</p>
         </div>
       )}
     </Modal>
