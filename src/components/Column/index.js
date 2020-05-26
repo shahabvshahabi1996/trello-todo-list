@@ -82,9 +82,9 @@ const Column = ({ column, tasks, index }) => {
               </div>
               <DropDown button={<InfoIcon />}>
                 <MenuItem onClick={() => toggleModal(column)}>Edit</MenuItem>
-                <MenuItem onClick={() => handleDeleteList(column.id)}>
+{column.id !== "column-1" && <MenuItem onClick={() => handleDeleteList(column.id)}>
                   Delete
-                </MenuItem>
+                </MenuItem>}
                 <MenuItem onClick={() => toggleInfoModal(column)}>
                   Info
                 </MenuItem>
