@@ -1,5 +1,5 @@
 import React, { memo } from "react";
-import Styles from "./style.task";
+import Styles from "./Task.style";
 import { Paper, IconButton } from "@material-ui/core";
 
 import { Draggable } from "react-beautiful-dnd";

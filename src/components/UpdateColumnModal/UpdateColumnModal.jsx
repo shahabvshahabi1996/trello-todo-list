@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import Styles from "./style.UpdateColumnModal";
+import Styles from "./UpdateColumnModal.style";
 import Modal from "../Constructors/Modal";
 import { TextField } from "@material-ui/core";
 

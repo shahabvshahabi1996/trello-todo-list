@@ -1,5 +1,5 @@
 import React, { useEffect, Fragment } from "react";
-import Styles from "./style.content";
+import Styles from "./Content.style";
 import { useSelector, useDispatch } from "react-redux";
 import Column from "../Column";
 import { DragDropContext, Droppable } from "react-beautiful-dnd";

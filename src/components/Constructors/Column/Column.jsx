@@ -1,15 +1,16 @@
-import React, { useCallback } from "react";
+import React, { useCallback, lazy } from "react";
 import { Paper, MenuItem, TextField, Button, Box } from "@material-ui/core";
 import { MoreVert as InfoIcon, Add as AddIcon } from "@material-ui/icons";
-import Styles from "./styles.column";
+import Styles from "./Column.style";
 import Task from "../Task";
 import { Droppable, Draggable } from "react-beautiful-dnd";
 import { useDispatch, useSelector } from "react-redux";
 import { deleteColumn, updateColumnInfo } from "../../../actions/app";
 import DropDown from "../DropDown";
-import UpdateColumnModal from "../../UpdateColumnModal";
-import InfoColumnModal from "../../InfoColumnModal";
-import AddTaskModal from "../../AddTaskModal";
+
+const UpdateColumnModal = lazy(() => import("../../UpdateColumnModal"));
+const InfoColumnModal = lazy(() => import("../../InfoColumnModal"));
+const AddTaskModal = lazy(() => import("../../AddTaskModal"));
 
 const Column = ({ column, tasks, index }) => {
   const classes = Styles();

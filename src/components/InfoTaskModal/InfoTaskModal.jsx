@@ -2,7 +2,7 @@ import React from "react";
 import Modal from "../Constructors/Modal";
 import { Edit as EditIcon, Delete as DeleteIcon } from "@material-ui/icons";
 import { IconButton } from "@material-ui/core";
-import Styles from "./style.InfoTaskModal";
+import Styles from "./InfoTaskModal.style";
 import { updateTask, deleteTask } from "../../actions/app";
 import { useSelector, useDispatch } from "react-redux";
 
