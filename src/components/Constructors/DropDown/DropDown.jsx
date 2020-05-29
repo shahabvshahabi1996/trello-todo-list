@@ -1,8 +1,6 @@
 import React from "react";
-import Button from "@material-ui/core/Button";
 import Menu from "@material-ui/core/Menu";
-import MenuItem from "@material-ui/core/MenuItem";
-import { IconButton } from "@material-ui/core";
+import IconButton from "@material-ui/core/IconButton";
 
 const DropDown = ({ children, button }) => {
   const [anchorEl, setAnchorEl] = React.useState(null);

@@ -1,5 +1,5 @@
-import React, { useCallback, lazy } from "react";
-import { Paper, MenuItem, TextField, Button, Box } from "@material-ui/core";
+import React, { lazy } from "react";
+import { Paper, MenuItem, Button, Box } from "@material-ui/core";
 import { MoreVert as InfoIcon, Add as AddIcon } from "@material-ui/icons";
 import Styles from "./Column.style";
 import Task from "../Task";

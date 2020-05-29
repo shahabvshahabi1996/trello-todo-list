@@ -5,14 +5,8 @@ import {
   DialogContent,
   DialogActions,
   Button,
-  makeStyles,
 } from "@material-ui/core";
-
-const Styles = makeStyles((theme) => ({
-  wrapper: {
-    ...theme.typography.body1,
-  },
-}));
+import Styles from "./Modal.style";
 
 const Modal = ({
   children,

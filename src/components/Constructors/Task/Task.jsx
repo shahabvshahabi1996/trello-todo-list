@@ -1,9 +1,9 @@
-import React, { memo } from "react";
+import React, { memo, lazy } from "react";
 import Styles from "./Task.style";
-import { Paper, IconButton } from "@material-ui/core";
-
+import { Paper } from "@material-ui/core";
 import { Draggable } from "react-beautiful-dnd";
-import InfoTaskModal from "../../InfoTaskModal";
+
+const InfoTaskModal = lazy(() => import("../../InfoTaskModal"));
 
 const Task = ({ item, index, columnId }) => {
   const classes = Styles();

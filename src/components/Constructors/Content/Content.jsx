@@ -1,4 +1,4 @@
-import React, { useEffect, Fragment } from "react";
+import React, { useEffect } from "react";
 import Styles from "./Content.style";
 import { useSelector, useDispatch } from "react-redux";
 import Column from "../Column";
