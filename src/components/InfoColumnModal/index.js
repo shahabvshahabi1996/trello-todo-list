@@ -1,5 +1,5 @@
 import React from "react";
-import Modal from "../Modal";
+import Modal from "../Constructors/Modal";
 
 const InfoColumnModal = ({ open, selectedColumn, toggleModal }) => {
   return (

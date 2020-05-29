@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
 import Styles from "./style.UpdateColumnModal";
-import Modal from "../Modal";
+import Modal from "../Constructors/Modal";
 import { TextField } from "@material-ui/core";
 
 const UpdateColumnModal = ({ open, toggleModal, handleSubmit, ...rest }) => {

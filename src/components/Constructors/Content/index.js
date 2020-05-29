@@ -3,7 +3,7 @@ import Styles from "./style.content";
 import { useSelector, useDispatch } from "react-redux";
 import Column from "../Column";
 import { DragDropContext, Droppable } from "react-beautiful-dnd";
-import { updateState } from "../../actions/app";
+import { updateState } from "../../../actions/app";
 
 const Content = () => {
   const classes = Styles();

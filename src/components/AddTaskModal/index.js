@@ -1,5 +1,5 @@
 import React from "react";
-import Modal from "../Modal";
+import Modal from "../Constructors/Modal";
 import { TextField } from "@material-ui/core";
 import Styles from "./style.AddTaskModal.js";
 import { updateTask } from "../../actions/app";

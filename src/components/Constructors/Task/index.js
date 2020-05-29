@@ -3,7 +3,7 @@ import Styles from "./style.task";
 import { Paper, IconButton } from "@material-ui/core";
 
 import { Draggable } from "react-beautiful-dnd";
-import InfoTaskModal from "../InfoTaskModal";
+import InfoTaskModal from "../../InfoTaskModal";
 
 const Task = ({ item, index, columnId }) => {
   const classes = Styles();

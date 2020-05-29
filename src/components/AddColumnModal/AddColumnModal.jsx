@@ -1,9 +1,9 @@
 import React from "react";
-import Modal from "../Modal";
+import Modal from "../Constructors/Modal";
 import { TextField } from "@material-ui/core";
-import Styles from "./style.AddColumnModal.js";
+import Styles from "./AddColumnModal.style.js";
 
-const ColumnModal = ({ open, handleSumbmit, toggleModal }) => {
+const AddColumnModal = ({ open, handleSumbmit, toggleModal }) => {
   const [title, setTitle] = React.useState("");
   const [describtion, setDescription] = React.useState("");
   const classes = Styles();
@@ -40,4 +40,4 @@ const ColumnModal = ({ open, handleSumbmit, toggleModal }) => {
     </Modal>
   );
 };
-export default ColumnModal;
+export default AddColumnModal;

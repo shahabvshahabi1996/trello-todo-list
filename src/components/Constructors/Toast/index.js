@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
 import { SnackbarProvider, useSnackbar } from "notistack";
 import { useSelector, useDispatch } from "react-redux";
-import { emptyMessage } from "../../actions/settings";
+import { emptyMessage } from "../../../actions/settings";
 
 const ToastHandler = () => {
   const { enqueueSnackbar } = useSnackbar();

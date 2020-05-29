@@ -5,12 +5,11 @@ import Styles from "./styles.column";
 import Task from "../Task";
 import { Droppable, Draggable } from "react-beautiful-dnd";
 import { useDispatch, useSelector } from "react-redux";
-import { deleteColumn, updateColumnInfo } from "../../actions/app";
+import { deleteColumn, updateColumnInfo } from "../../../actions/app";
 import DropDown from "../DropDown";
-import Modal from "../Modal";
-import UpdateColumnModal from "../UpdateColumnModal";
-import InfoColumnModal from "../InfoColumnModal";
-import AddTaskModal from "../AddTaskModal";
+import UpdateColumnModal from "../../UpdateColumnModal";
+import InfoColumnModal from "../../InfoColumnModal";
+import AddTaskModal from "../../AddTaskModal";
 
 const Column = ({ column, tasks, index }) => {
   const classes = Styles();
@@ -82,9 +81,11 @@ const Column = ({ column, tasks, index }) => {
               </div>
               <DropDown button={<InfoIcon />}>
                 <MenuItem onClick={() => toggleModal(column)}>Edit</MenuItem>
-{column.id !== "column-1" && <MenuItem onClick={() => handleDeleteList(column.id)}>
-                  Delete
-                </MenuItem>}
+                {column.id !== "column-1" && (
+                  <MenuItem onClick={() => handleDeleteList(column.id)}>
+                    Delete
+                  </MenuItem>
+                )}
                 <MenuItem onClick={() => toggleInfoModal(column)}>
                   Info
                 </MenuItem>

@@ -3,8 +3,8 @@ import { makeStyles, AppBar, Button } from "@material-ui/core";
 import { Add as AddIcon } from "@material-ui/icons";
 import { useSelector, useDispatch } from "react-redux";
 import { initiateData, addNewColumn as AddColumn } from "./actions/app";
-import Content from "./components/Content";
-import Toast from "./components/Toast";
+import Content from "./components/Constructors/Content";
+import Toast from "./components/Constructors/Toast";
 import AddColumnModal from "./components/AddColumnModal";
 
 const Styels = makeStyles((theme) => ({
