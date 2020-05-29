@@ -1,7 +1,7 @@
 import React from "react";
 import Modal from "../Constructors/Modal";
 import { TextField } from "@material-ui/core";
-import Styles from "./style.AddTaskModal.js";
+import Styles from "./AddTaskModal.style.js";
 import { updateTask } from "../../actions/app";
 import { useDispatch, useSelector } from "react-redux";
 
