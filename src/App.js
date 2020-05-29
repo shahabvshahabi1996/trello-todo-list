@@ -1,5 +1,10 @@
-import React, { useEffect } from "react";
-import { makeStyles, AppBar, Button } from "@material-ui/core";
+import React, { useEffect, Suspense } from "react";
+import {
+  makeStyles,
+  AppBar,
+  Button,
+  CircularProgress,
+} from "@material-ui/core";
 import { Add as AddIcon } from "@material-ui/icons";
 import { useSelector, useDispatch } from "react-redux";
 import { initiateData, addNewColumn as AddColumn } from "./actions/app";
@@ -73,28 +78,30 @@ const App = () => {
 
   return (
     <Toast>
-      <AddColumnModal
-        open={open}
-        handleSumbmit={addNewColumn}
-        toggleModal={toggleModal}
-      />
-      <div className={classes.AppWrapper}>
-        <AppBar color="inherit" className={classes.header}>
-          <div>
-            <h2>Trello</h2>
-            <Button onClick={toggleModal} color="primary">
-              <AddIcon /> ADD NEW LIST
-            </Button>
+      <Suspense fallback={<CircularProgress />}>
+        <AddColumnModal
+          open={open}
+          handleSumbmit={addNewColumn}
+          toggleModal={toggleModal}
+        />
+        <div className={classes.AppWrapper}>
+          <AppBar color="inherit" className={classes.header}>
+            <div>
+              <h2>Trello</h2>
+              <Button onClick={toggleModal} color="primary">
+                <AddIcon /> ADD NEW LIST
+              </Button>
+            </div>
+          </AppBar>
+          <br />
+          <br />
+          <br />
+          <br />
+          <div className={classes.cotentContainer}>
+            <Content />
           </div>
-        </AppBar>
-        <br />
-        <br />
-        <br />
-        <br />
-        <div className={classes.cotentContainer}>
-          <Content />
         </div>
-      </div>
+      </Suspense>
     </Toast>
   );
 };
