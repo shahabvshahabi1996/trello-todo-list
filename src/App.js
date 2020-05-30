@@ -46,27 +46,21 @@ const App = () => {
 
   useEffect(() => {
     if (isInitial) {
-      fetchData();
+      dispatch(
+        initiateData({
+          "task-1": {
+            id: "task-1",
+            content: "Hello world!",
+          },
+          "task-2": {
+            id: "task-2",
+            content: "Try to make your own todos!",
+          },
+        })
+      );
       return;
     }
   }, []);
-
-  const fetchData = () => {
-    fetch("https://jsonplaceholder.typicode.com/todos/")
-      .then((res) => res.json())
-      .then((response) => {
-        return response.splice(0, 10).reduce((prev, current) => {
-          return {
-            ...prev,
-            [`task-${current.id}`]: {
-              id: `task-${current.id}`,
-              content: current.title,
-            },
-          };
-        }, {});
-      })
-      .then((data) => dispatch(initiateData(data)));
-  };
 
   const addNewColumn = (title, description) => {
     dispatch(AddColumn(title, description));
