@@ -2,7 +2,7 @@ A clone from Trello application just for fun :)
 
 ## Demo
 
-For demo just check this => [Link](https://d4s59.codesandbox.io/);
+For demo just check this => [Link](https://codesandbox.io/s/d4s59);
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
